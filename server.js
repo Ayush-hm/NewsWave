@@ -34,7 +34,21 @@ app.get('/api/technology', async (req, res) => {
   console.log(a);
 });
 
+app.get('/api/entertainment', async (req, res) => {
+  console.log(req._parsedUrl.query);
+  const url = "https://newsapi.org/v2/top-headlines?" + req._parsedUrl.query;
+  let r = await axios(url);
+  let a = r.data;
+  res.json(a);
+});
 
+app.get('/api/business', async (req, res) => {
+  console.log(req._parsedUrl.query);
+  const url = "https://newsapi.org/v2/top-headlines?" + req._parsedUrl.query;
+  let r = await axios(url);
+  let a = r.data;
+  res.json(a);
+});
 
 app.get('/style.css', (req, res) => {
   res.setHeader('Content-Type', 'text/css');

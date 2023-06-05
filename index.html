@@ -11,48 +11,51 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body data-bs-theme="light">
     <div class="bg-white">
         <header class="absolute inset-x-0 top-0 z-50">
             <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
                 <div class="flex lg:flex-1">
-                    <a href="/?q=top-headlines" class="-m-1.5 p-1.5">
-                        <span class="sr-only">Company</span>
+                    <a href="/?q=top-headlines" class="-m-1.5 p-1.5" id="brand-logo">
                         <img class="h-10 w-auto px-10 " src="/images/NewsWave.png" alt="">
                     </a>
                 </div>
                 <div class="hidden lg:flex lg:gap-x-12 ">
                     <a href="/?q=top-headlines"
-                        class="text-m font-semibold leading-6 text-gray-900 border-b-4 rounded-lg border-transparent hover:text-[#2b0548] hover:border-indigo-900 active:border-violet-700 ">Home</a>
+                        class="text-base font-semibold leading-5 text-gray-900 border-b-4 rounded-lg border-transparent hover:text-[#2b0548] hover:border-indigo-900 active:border-violet-700 nav-element">Home</a>
                     <a href="/?q=technology"
-                        class="text-m font-semibold leading-6 text-gray-900 border-b-4 rounded-lg border-transparent hover:text-[#2b0548] hover:border-indigo-900">Technology</a>
+                        class="text-base font-semibold leading-5 text-gray-900 border-b-4 rounded-lg border-transparent hover:text-[#2b0548] hover:border-indigo-900 nav-element">Technology</a>
                     <a href="/?q=sports"
-                        class="text-m font-semibold leading-6 text-gray-900 border-b-4 rounded-lg border-transparent hover:text-[#2b0548] hover:border-indigo-900">Sports</a>
+                        class="text-base font-semibold leading-5 text-gray-900 border-b-4 rounded-lg border-transparent hover:text-[#2b0548] hover:border-indigo-900 nav-element">Sports</a>
                     <a href="/?q=entertainment"
-                        class="text-m font-semibold leading-6 text-gray-900 border-b-4 rounded-lg border-transparent hover:text-[#2b0548] hover:border-indigo-900">Entertainment</a>
+                        class="text-base font-semibold leading-5 text-gray-900 border-b-4 rounded-lg border-transparent hover:text-[#2b0548] hover:border-indigo-900 nav-element">Entertainment</a>
+                    <a href="/?q=business"
+                        class="text-base font-semibold leading-5 text-gray-900 border-b-4 rounded-lg border-transparent hover:text-[#2b0548] hover:border-indigo-900 nav-element">Business</a>
                 </div>
                 <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <a href="#" class="text-sm font-semibold leading-6 text-gray-900 px-10">Log in <span
+                    <a href="#" class="text-sm font-semibold leading-6 text-gray-900 px-3 py-2 login-btn ">Log in <span
                             aria-hidden="true">&rarr;</span></a>
+                </div>
+                <div class="ml-5">
+                    <label class="switch">
+                        <input type="checkbox" data-toggle="toggle" onclick="mode()" class="toggle-btn">
+                        <span class="slider round"></span>
+                    </label>
                 </div>
             </nav>
         </header>
     </div>
 
-    <p class="mx-20 mt-20 flex relative mb-5 font-sans-serif font-bold italic text-[#2b0648] text-2xl underline"
+    <p class="mx-20 mt-20 flex relative mb-5 font-sans-serif font-bold italic text-[#2b0648] text-2xl underline p-label"
         style="margin-top: 7rem;" id="label"></p>
-    <div class="container mx-auto  lg:flex lg:items-center lg:space-between" id="contentcontainer">
-        <div id="content" class="row ml-2 flex-row"></div>
+    <div class="container mx-auto lg:flex lg:items-center lg:space-between" id="contentcontainer">
+        <div id="content" class="row flex-row" style="margin-left: 6.5rem;">
+            <div class="flex justify-content-center align-items-center">
+                <img src="https://samherbert.net/svg-loaders/svg-loaders/bars.svg"
+                    style="filter: invert(1); justify-content: center;">
+            </div>
+        </div>
     </div>
-
-
-    <section id="weather">
-
-    </section>
-    <section id="tech"></section>
-    <section id="sports"></section>
-
-
 
 
     <footer class="bg-[#2b0548]">
@@ -135,18 +138,38 @@
         crossorigin="anonymous"></script>
 
     <script>
+        function mode() {
+            var element = document.body;
+            element.dataset.bsTheme = element.dataset.bsTheme == "light" ? "dark" : "light";
+
+            var brandLogo = document.getElementById("brand-logo");
+            if (body.getAttribute("data-bs-theme") === "light") {
+                body.setAttribute("data-bs-theme", "dark");
+                brandLogo.innerHTML = '<img src="/images/NewsWave-Light.png" alt="Brand Logo">';
+            } else {
+                body.setAttribute("data-bs-theme", "light");
+                brandLogo.innerHTML = '<img src="/images/NewsWave.png" alt="Brand Logo">';
+            }
+        }
+    </script>
+
+    <script>
         let query = window.location.search.split("?")[1].split("&")[0].split("=")[1];
         const fetchnews = async (query) => {
             let url = '';
-            if (query=="top-headlines"){
+            if (query == "top-headlines") {
                 url = `/api?q=${query}&apiKey=5bbd3804f3c24a7e994dbdf4808a65d3`
-            } else if (query == "sports"){
+            } else if (query == "sports") {
                 url = `/api/sports?${query}&category=sports&country=in&apiKey=5bbd3804f3c24a7e994dbdf4808a65d3`
-            } else if(query == "technology"){
+            } else if (query == "technology") {
                 url = `/api?q=${query}&domains=techcrunch.com,gadgetsnow.com&apiKey=5bbd3804f3c24a7e994dbdf4808a65d3`
+            } else if (query == "entertainment") {
+                url = `/api/entertainment?category=entertainment&country=in&apiKey=5bbd3804f3c24a7e994dbdf4808a65d3`
+            } else if (query == "business") {
+                url = `/api/business?category=business&country=in&apiKey=5bbd3804f3c24a7e994dbdf4808a65d3`
             }
-              // Modified the URL to "/api" as defined in the Express server
-            
+            // Modified the URL to "/api" as defined in the Express server
+
             let x = await fetch(url)
             let y = " "
             if (query == "top-headlines") {
@@ -155,19 +178,29 @@
                 y = "Technology"
             } else if (query == "sports") {
                 y = "Sports"
+            } else if (query == "entertainment") {
+                y = "Entertainment"
+            } else if (query == "business") {
+                y = "Business"
             }
             let r = await x.json()
             console.log(r)
-            let str = " "           
-            
-            for (let i = 0; i < 6; i++) { 
-                let rand = Math.floor(Math.random() * 20)
-                 // Limiting the loop to generate only 6 cards
-                let article = r.articles[rand];
-                if (!article) break;  // Break the loop if there are fewer than 6 articles
+            let str = " "
+
+            let generatedNumbers = [];
+            for (let i = 0; i < 6; i++) {
+                let rand;
+                do {
+                    rand = Math.floor(Math.random() * 20) + 1;
+                } while (generatedNumbers.includes(rand));
+                generatedNumbers.push(rand);
+
+                let article = r.articles[rand - 1]; // Subtract 1 to get the correct index
+                if (!article) break; // Break the loop if there are fewer than 6 articles
+
                 str = str + `
                     <div class="card ml-20 mb-20" style="width: 20rem;">
-                         <img src="${article.urlToImage}" class="card-img-top pt-2 rounded-2" alt="...">
+                        <img src="${article.urlToImage}" class="card-img-top pt-2 rounded-2" alt="...">
                         <div class="card-body">
                             <h5 class="card-title text-xl font-sans font-bold">${article.title}</h5>
                             <p class="card-text">${article.description}</p>
@@ -176,10 +209,11 @@
                     </div>
                 `;
             }
+
             content.innerHTML = str;
             label.innerHTML = y;
         }
-        
+
         fetchnews(query);
         // setInterval(fetchnews, 30000);
     </script>
